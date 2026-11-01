@@ -24,16 +24,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const initRef = useRef(false);
 
-  const fetchProfile = async (uid: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, role, full_name, phone, created_at')
-      .eq('id', uid)
-      .maybeSingle();
+  const fetchProfile = async (uid: string): Promise<UserProfile | null> => {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, role, full_name, phone, created_at')
+        .eq('id', uid)
+        .maybeSingle();
 
-    if (!error && data) {
-      setProfile(data as UserProfile);
+      if (!error && data) {
+        const profile = data as UserProfile;
+        setProfile(profile);
+        return profile;
+      }
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 500));
     }
+    return null;
   };
 
   useEffect(() => {
@@ -65,8 +71,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }, 3000);
 
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, newSession) => {
+      setSession(newSession);
+      setUser(newSession?.user ?? null);
+      if (newSession?.user && event !== 'SIGNED_OUT') {
+        (async () => {
+          await fetchProfile(newSession.user.id);
+        })();
+      } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED' && !newSession) {
+        setProfile(null);
+      }
+    });
+
     return () => {
       clearTimeout(timeout);
+      authListener.subscription.unsubscribe();
     };
   }, []);
 
