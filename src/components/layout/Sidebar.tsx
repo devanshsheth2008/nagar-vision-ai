@@ -1,17 +1,28 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { navItems } from '@/config/navigation';
+import { getNavItems } from '@/config/navigation';
+import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, Eye } from 'lucide-react';
+import { ChevronLeft, Building2 } from 'lucide-react';
+import type { UserRole } from '@/types';
 
 interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (v: boolean) => void;
+  role: UserRole;
 }
 
-export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
+const roleLabels: Record<UserRole, string> = {
+  admin: 'Admin Portal',
+  citizen: 'Citizen Portal',
+  crew: 'Cleaning Crew Portal',
+};
+
+export function Sidebar({ collapsed, setCollapsed, role }: SidebarProps) {
   const [hovered, setHovered] = useState(false);
   const expanded = !collapsed || hovered;
+  const navItems = getNavItems(role);
+  const { signOut } = useAuth();
 
   return (
     <aside
@@ -24,12 +35,12 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
     >
       <div className="flex items-center gap-3 px-4 h-16 border-b border-ink-700 shrink-0">
         <div className="relative w-10 h-10 rounded-lg bg-[#17365D] flex items-center justify-center shrink-0">
-          <Eye className="w-5 h-5 text-white" />
+          <Building2 className="w-5 h-5 text-white" />
         </div>
         {expanded && (
           <div className="overflow-hidden">
-            <h1 className="text-sm font-bold text-[#263445] tracking-wide whitespace-nowrap">NAGAR VISION AI</h1>
-            <p className="text-[10px] text-gray-500 whitespace-nowrap">Gandhidham Municipal Corporation</p>
+            <h1 className="text-sm font-bold text-[#263445] tracking-wide whitespace-nowrap">SWATCHNETRA</h1>
+            <p className="text-[10px] text-gray-500 whitespace-nowrap">{roleLabels[role]}</p>
           </div>
         )}
       </div>
@@ -39,7 +50,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           <NavLink
             key={item.path}
             to={item.path}
-            end={item.path === '/'}
+            end={item.path === `/admin` || item.path === `/citizen` || item.path === `/crew`}
             className={({ isActive }) =>
               cn('nav-link', isActive && 'nav-link-active', !expanded && 'justify-center px-0')
             }
@@ -70,6 +81,15 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             </div>
           )}
         </div>
+        {expanded && (
+          <button
+            onClick={() => signOut()}
+            className="mt-2 w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-500 hover:text-[#C83E3E] transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Sign Out
+          </button>
+        )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className={cn(

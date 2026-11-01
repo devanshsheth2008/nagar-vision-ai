@@ -142,3 +142,90 @@ export interface DetectionSession {
   modelVersion: string;
   status: 'processing' | 'completed' | 'failed';
 }
+
+// ============================================================
+// SWATCHNETRA Multi-Portal Types
+// ============================================================
+
+export type UserRole = 'admin' | 'citizen' | 'crew';
+
+export interface UserProfile {
+  id: string;
+  role: UserRole;
+  full_name: string;
+  phone: string | null;
+  created_at: string;
+}
+
+export type ComplaintCategory =
+  | 'garbage-pile'
+  | 'plastic-waste'
+  | 'construction-debris'
+  | 'mixed-waste'
+  | 'drainage-overflow'
+  | 'other';
+
+export type ComplaintStatus =
+  | 'submitted'
+  | 'verified'
+  | 'assigned'
+  | 'in-progress'
+  | 'evidence-uploaded'
+  | 'resolved'
+  | 'rejected';
+
+export type ComplaintSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface Complaint {
+  id: string;
+  citizen_id: string;
+  category: ComplaintCategory;
+  description: string;
+  location_text: string;
+  lat: number;
+  lng: number;
+  status: ComplaintStatus;
+  severity: ComplaintSeverity | null;
+  assigned_crew_id: string | null;
+  admin_notes: string | null;
+  created_at: string;
+  updated_at: string;
+  photos?: ComplaintPhoto[];
+  citizen_name?: string;
+  crew_name?: string;
+}
+
+export interface ComplaintPhoto {
+  id: string;
+  complaint_id: string;
+  photo_url: string;
+  caption: string | null;
+  created_at: string;
+}
+
+export type CrewTaskStatus = 'assigned' | 'in-progress' | 'completed' | 'verified';
+
+export interface CrewTask {
+  id: string;
+  complaint_id: string;
+  crew_id: string;
+  status: CrewTaskStatus;
+  assigned_at: string;
+  started_at: string | null;
+  completed_at: string | null;
+  verified_at: string | null;
+  admin_notes: string | null;
+  created_at: string;
+  complaint?: Complaint;
+  photos?: TaskPhoto[];
+  crew_name?: string;
+}
+
+export interface TaskPhoto {
+  id: string;
+  task_id: string;
+  photo_url: string;
+  photo_type: 'before' | 'after';
+  caption: string | null;
+  created_at: string;
+}
