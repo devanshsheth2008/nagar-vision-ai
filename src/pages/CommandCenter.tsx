@@ -142,7 +142,7 @@ export function CommandCenter() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <Panel title="Recent Incidents" subtitle="Latest detections" noPadding
-          action={<Link to="/incidents" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
+          action={<Link to="/admin/incidents" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
         >
           <div className="divide-y divide-ink-700/60 max-h-[300px] overflow-y-auto">
             {incidents.slice(0, 6).map((inc) => {
@@ -167,7 +167,7 @@ export function CommandCenter() {
         </Panel>
 
         <Panel title="Camera Status" subtitle="Live monitoring network" noPadding
-          action={<Link to="/monitoring" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
+          action={<Link to="/admin/monitoring" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
         >
           <div className="divide-y divide-ink-700/60 max-h-[300px] overflow-y-auto">
             {cameras.map((cam) => {
@@ -190,7 +190,7 @@ export function CommandCenter() {
         </Panel>
 
         <Panel title="Recent Cleanup Activities" subtitle="Field operations" noPadding
-          action={<Link to="/cleanup" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
+          action={<Link to="/admin/cleanup" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">View all <ArrowRight className="w-3 h-3" /></Link>}
         >
           <div className="divide-y divide-ink-700/60 max-h-[300px] overflow-y-auto">
             {cleanupOperations.map((op) => {
@@ -213,7 +213,7 @@ export function CommandCenter() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <Panel title="Hotspot Preview Map" subtitle="Active waste accumulation zones in Gandhidham"
-            action={<Link to="/hotspots" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">Open map <ArrowRight className="w-3 h-3" /></Link>}
+            action={<Link to="/admin/hotspots" className="text-xs text-neon-cyan hover:underline flex items-center gap-1">Open map <ArrowRight className="w-3 h-3" /></Link>}
           >
             <CityMap hotspots={hotspots} height="380px" />
           </Panel>
