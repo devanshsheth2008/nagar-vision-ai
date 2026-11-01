@@ -132,7 +132,7 @@ export function generateMonthlyReport(options: ReportOptions): void {
   <!-- Header Bar -->
   <rect x="0" y="0" width="800" height="80" fill="${headerColor}"/>
   <rect x="0" y="78" width="800" height="2" fill="${barColor}"/>
-  <text x="40" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">NAGAR VISION AI</text>
+  <text x="40" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">SWATCHNETRA</text>
   <text x="40" y="55" font-family="Inter, sans-serif" font-size="11" fill="#9ca3af" letter-spacing="2">SMART CITY INTELLIGENCE SYSTEM</text>
   <text x="760" y="35" font-family="Inter, sans-serif" font-size="16" font-weight="bold" fill="${barColor}" text-anchor="end">Monthly Report</text>
   <text x="760" y="55" font-family="Inter, sans-serif" font-size="11" fill="#9ca3af" text-anchor="end">${escapeXml(month)} ${escapeXml(year)}</text>
@@ -248,7 +248,7 @@ export function generateMonthlyReport(options: ReportOptions): void {
 
   <!-- Footer -->
   <rect x="0" y="1160" width="800" height="40" fill="${headerColor}"/>
-  <text x="40" y="1180" font-family="Inter, sans-serif" font-size="9" fill="#6b7280">NAGAR VISION AI | Gandhidham Municipal Corporation | Confidential</text>
+  <text x="40" y="1180" font-family="Inter, sans-serif" font-size="9" fill="#6b7280">SWATCHNETRA | Gandhidham Municipal Corporation | Confidential</text>
   <text x="760" y="1180" font-family="Inter, sans-serif" font-size="9" fill="#6b7280" text-anchor="end">Page 1 of 1</text>
 </svg>`;
 
@@ -273,7 +273,7 @@ export function generateMonthlyReport(options: ReportOptions): void {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `NagarVision_Report_${month}_${year}.pdf`;
+      a.download = `SwatchNetra_Report_${month}_${year}.pdf`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
